@@ -1,0 +1,14 @@
+# Notes2in1 Dependencies
+# Install system packages first:
+#   sudo apt install libgtk-4-dev libadwaita-1-dev libcairo2-dev libgirepository1.0-dev
+
+# GTK4/Cairo bindings (system packages recommended, but can be installed via pip)
+PyGObject>=3.42.0
+pycairo>=1.20.0
+
+# Input device handling
+python-evdev>=1.6.0
+
+# Image processing and export
+Pillow>=9.0.0
+reportlab>=3.6.0

@@ -1,0 +1,485 @@
+/* ===== NOTES2IN1 STYLESHEET ===== */
+/* Modern, human-centric design for Microsoft Whiteboard-style interface */
+
+/* ===== TOOLBAR ===== */
+.toolbar {
+    background: alpha(@window_bg_color, 0.85);
+    backdrop-filter: blur(20px);
+    -gtk-backdrop-filter: blur(20px);
+    border: 1px solid alpha(currentColor, 0.08);
+    border-radius: 24px;
+    padding: 4px 20px;
+    box-shadow: 0 2px 12px alpha(black, 0.08),
+                0 1px 3px alpha(black, 0.06);
+}
+
+.compact-tool {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 180ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+}
+
+.compact-tool:hover {
+    background: alpha(@accent_bg_color, 0.1);
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px alpha(black, 0.1);
+}
+
+.compact-tool:active {
+    transform: scale(0.98);
+    background: alpha(@accent_bg_color, 0.15);
+    box-shadow: 0 1px 3px alpha(black, 0.12);
+}
+
+/* Active tool state */
+.compact-tool.active {
+    background: alpha(@accent_bg_color, 0.15);
+    box-shadow: inset 0 1px 3px alpha(black, 0.12);
+}
+
+/* Toolbar separators */
+.toolbar separator {
+    background: alpha(currentColor, 0.1);
+    min-width: 1px;
+    min-height: 28px;
+    opacity: 0.5;
+}
+
+/* Toolbar button labels */
+.toolbar-button-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+}
+
+/* ===== MODERN SIDEBAR ===== */
+.modern-sidebar {
+    background: linear-gradient(135deg, 
+        alpha(@window_bg_color, 0.98), 
+        alpha(@window_bg_color, 1));
+    border-right: 1px solid alpha(currentColor, 0.12);
+    box-shadow: 2px 0 24px alpha(black, 0.06);
+}
+
+/* Sidebar branding */
+.sidebar-app-icon {
+    font-size: 28px;
+}
+
+.sidebar-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.sidebar-subtitle {
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+/* Modern search box */
+.modern-search-box {
+    background: alpha(currentColor, 0.04);
+    border: 1px solid alpha(currentColor, 0.10);
+    border-radius: 12px;
+    padding: 2px;
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-search-box:focus-within {
+    background: @window_bg_color;
+    border-color: @accent_bg_color;
+    box-shadow: 0 0 0 3px alpha(@accent_bg_color, 0.15);
+}
+
+.modern-search-entry {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    min-height: 32px;
+}
+
+.modern-search-entry:focus {
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Pill buttons */
+.pill-button {
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-weight: 600;
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pill-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px alpha(black, 0.15);
+}
+
+.pill-button:active {
+    transform: translateY(0);
+}
+
+/* Modern divider */
+.modern-divider {
+    background: linear-gradient(to right, 
+        transparent, 
+        alpha(currentColor, 0.12), 
+        transparent);
+    min-height: 1px;
+    margin: 8px 16px;
+}
+
+/* Modern listbox */
+.modern-listbox {
+    background: transparent;
+}
+
+.modern-listbox > row {
+    background: transparent;
+    border: none;
+}
+
+.modern-listbox > row:hover {
+    background: transparent;
+}
+
+/* Hide any list indicators/bullets */
+.modern-listbox > row::before,
+.modern-listbox > row::after,
+listboxrow::before,
+listboxrow::after {
+    content: none;
+    display: none;
+}
+
+/* Subject cards */
+.subject-card {
+    background: alpha(@window_bg_color, 0.6);
+    border: 1px solid alpha(currentColor, 0.08);
+    border-radius: 14px;
+    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px alpha(black, 0.08);
+}
+
+.subject-card:hover {
+    background: @window_bg_color;
+    border-color: alpha(@accent_bg_color, 0.3);
+    box-shadow: 0 4px 16px alpha(black, 0.12);
+    transform: translateY(-2px);
+}
+
+/* Subject header button - makes entire header clickable */
+.subject-header-button {
+    border-radius: 14px 14px 0 0;
+    transition: background 150ms ease;
+    cursor: pointer;
+}
+
+.subject-header-button:hover {
+    background: alpha(@accent_bg_color, 0.05);
+}
+
+.subject-header-button:active {
+    background: alpha(@accent_bg_color, 0.10);
+}
+
+.chevron-icon {
+    min-width: 20px;
+    min-height: 20px;
+    opacity: 0.7;
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.subject-header-button:hover .chevron-icon {
+    opacity: 1;
+}
+
+.subject-icon {
+    font-size: 18px;
+}
+
+.subject-name {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+}
+
+.note-count-badge {
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.5;
+    margin-left: 28px;
+}
+
+/* Notes list */
+.notes-list {
+    background: alpha(currentColor, 0.02);
+    border-top: 1px solid alpha(currentColor, 0.06);
+    border-radius: 0 0 12px 12px;
+}
+
+/* Note items */
+.note-item {
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    margin: 2px 0;
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.note-item:hover {
+    background: alpha(@accent_bg_color, 0.08);
+    transform: translateX(4px);
+}
+
+.note-item:active {
+    background: alpha(@accent_bg_color, 0.12);
+}
+
+.note-bullet {
+    color: @accent_bg_color;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.note-name {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.note-chevron {
+    opacity: 0;
+    transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.note-item:hover .note-chevron {
+    opacity: 0.5;
+    transform: translateX(2px);
+}
+
+/* Sidebar footer */
+.sidebar-footer {
+    border-top: 1px solid alpha(currentColor, 0.08);
+    background: alpha(currentColor, 0.02);
+}
+
+.statusbar {
+    border-top: 1px solid alpha(currentColor, 0.08);
+    background-color: alpha(currentColor, 0.02);
+}
+
+/* Active tool highlight */
+button.compact-tool.suggested-action {
+    background: @accent_bg_color;
+    color: @accent_fg_color;
+    box-shadow: 0 2px 10px alpha(@accent_bg_color, 0.35),
+                inset 0 1px 0 alpha(white, 0.15);
+}
+
+button.compact-tool.suggested-action:hover {
+    background: @accent_bg_color;
+    transform: scale(1.08);
+    box-shadow: 0 4px 16px alpha(@accent_bg_color, 0.45),
+                inset 0 1px 0 alpha(white, 0.2);
+}
+
+button.compact-tool.suggested-action:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 6px alpha(@accent_bg_color, 0.4),
+                inset 0 1px 2px alpha(black, 0.1);
+}
+
+/* Destructive action styling */
+button.compact-tool.destructive-action:hover {
+    background: alpha(#e01b24, 0.12);
+    color: #c01c28;
+}
+
+button.compact-tool.destructive-action:active {
+    background: alpha(#e01b24, 0.18);
+    transform: scale(0.95);
+}
+
+/* Color swatches */
+button.color-swatch {
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0;
+    border: 2px solid alpha(currentColor, 0.15);
+    border-radius: 8px;
+    transition: all 160ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* background-color is set inline per swatch for dynamic colors */
+}
+
+button.color-swatch:hover {
+    border-color: alpha(currentColor, 0.4);
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px alpha(black, 0.2);
+}
+
+button.color-swatch:active {
+    border-color: @accent_bg_color;
+    border-width: 3px;
+    transform: scale(1.05);
+}
+
+/* Thickness vertical slider */
+.thickness-vertical-slider {
+    min-width: 32px;
+}
+
+.thickness-vertical-slider trough {
+    min-width: 8px;
+    border-radius: 4px;
+    background: linear-gradient(to bottom, @accent_bg_color, alpha(@accent_bg_color, 0.3));
+    box-shadow: inset 0 1px 3px alpha(black, 0.1);
+}
+
+.thickness-vertical-slider highlight {
+    background: linear-gradient(to bottom, alpha(@accent_bg_color, 0.9), @accent_bg_color);
+    border-radius: 4px;
+}
+
+.thickness-vertical-slider slider {
+    min-width: 24px;
+    min-height: 24px;
+    margin: -8px;
+    background-color: @accent_bg_color;
+    border: 3px solid white;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px alpha(black, 0.25);
+}
+
+.thickness-vertical-slider slider:hover {
+    min-width: 28px;
+    min-height: 28px;
+    margin: -10px;
+    box-shadow: 0 4px 12px alpha(black, 0.3);
+}
+
+.thickness-vertical-slider value {
+    font-weight: bold;
+    font-size: 11px;
+}
+
+/* Toggle buttons - special styling for palm rejection */
+togglebutton.compact-tool:checked {
+    background: alpha(@accent_bg_color, 0.18);
+    box-shadow: inset 0 1px 3px alpha(black, 0.1);
+}
+
+togglebutton.compact-tool:checked:hover {
+    background: alpha(@accent_bg_color, 0.22);
+    transform: scale(1.05);
+}
+
+/* Dropdown styling */
+dropdown {
+    border-radius: 10px;
+    background: transparent;
+    transition: all 180ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+dropdown:hover {
+    background: alpha(@accent_bg_color, 0.08);
+}
+
+/* Toolbar label styling */
+.toolbar label {
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    opacity: 0.85;
+}
+
+/* Smooth transitions */
+button, revealer, scale, togglebutton, dropdown {
+    transition: all 180ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Subject/note rows */
+.navigation-sidebar row {
+    border-radius: 8px;
+    margin: 2px 6px;
+}
+
+.navigation-sidebar row:hover {
+    background-color: alpha(@accent_bg_color, 0.08);
+}
+
+/* Popovers */
+popover {
+    border-radius: 14px;
+    padding: 4px;
+    box-shadow: 0 8px 24px alpha(black, 0.18),
+                0 2px 8px alpha(black, 0.12);
+    border: 1px solid alpha(currentColor, 0.08);
+    background: alpha(@window_bg_color, 0.98);
+    backdrop-filter: blur(20px);
+}
+
+popover > contents {
+    border-radius: 12px;
+}
+
+/* Thickness preset buttons */
+.thickness-preset-btn {
+    min-width: 50px;
+    min-height: 50px;
+    border-radius: 25px;
+    background: alpha(@window_bg_color, 0.6);
+    border: 2px solid alpha(currentColor, 0.12);
+    padding: 0;
+    transition: all 180ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.thickness-preset-btn:hover {
+    border-color: alpha(@accent_bg_color, 0.6);
+    background: alpha(@window_bg_color, 1);
+    box-shadow: 0 3px 10px alpha(black, 0.12);
+    transform: scale(1.12);
+}
+
+.thickness-preset-btn:active {
+    transform: scale(1.05);
+}
+
+.thickness-preset-btn.selected {
+    border: 2.5px solid @accent_bg_color;
+    box-shadow: 0 0 0 3px alpha(@accent_bg_color, 0.18),
+                0 3px 10px alpha(@accent_bg_color, 0.25);
+    background: alpha(@accent_bg_color, 0.08);
+}
+
+.thickness-slider {
+    min-width: 240px;
+}
+
+/* Sidebar search and controls */
+.sidebar-search {
+    background: alpha(currentColor, 0.06);
+    border: 1px solid alpha(currentColor, 0.12);
+    border-radius: 8px;
+    padding: 6px 10px;
+    margin: 8px;
+    transition: all 150ms ease;
+}
+
+.sidebar-search:focus {
+    background: @window_bg_color;
+    border-color: @accent_bg_color;
+    box-shadow: 0 0 0 2px alpha(@accent_bg_color, 0.2);
+}
+
+.sidebar-separator {
+    background: alpha(currentColor, 0.08);
+    min-height: 1px;
+    margin: 8px 0;
+}

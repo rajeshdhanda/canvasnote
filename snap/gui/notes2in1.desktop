@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Notes2in1
+GenericName=Note-taking and Drawing App
+Comment=Note-taking & drawing app for 2-in-1 devices with stylus support
+Icon=${SNAP}/usr/share/pixmaps/notes2in1.png
+Exec=notes2in1
+Terminal=false
+Categories=Graphics;Education;Utility;Office;
+Keywords=notes;drawing;handwriting;stylus;pen;tablet;whiteboard;sketch;
+StartupNotify=true
+StartupWMClass=notes2in1
