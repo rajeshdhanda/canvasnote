@@ -456,7 +456,7 @@ class DrawingDocument:
     
     def to_dict(self):
         result = {
-            'version': '1.3',
+            'version': '1.0',
             'note_type': self.note_type.value,
             'width': self.width,
             'height': self.height,

@@ -19,16 +19,16 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-class Notes2in1App(Adw.Application):
+class CanvasNoteApp(Adw.Application):
     """Main application class."""
     
     def __init__(self):
         super().__init__(
-            application_id='com.notes2in1.app',
+            application_id='com.canvasnote.app',
             flags=Gio.ApplicationFlags.NON_UNIQUE
         )
         self.window = None
-        logger.info("Notes2in1 application initialized")
+        logger.info("CanvasNote application initialized")
     
     def do_activate(self):
         """Activate the application."""
@@ -46,7 +46,7 @@ class Notes2in1App(Adw.Application):
 
 def main():
     """Main entry point."""
-    logger.info("Starting Notes2in1 application")
+    logger.info("Starting CanvasNote application")
     
     # Check for required dependencies
     try:
@@ -56,7 +56,7 @@ def main():
     except ImportError as e:
         logger.warning(f"Missing dependency: {e}")
     
-    app = Notes2in1App()
+    app = CanvasNoteApp()
     return app.run(sys.argv)
 
 

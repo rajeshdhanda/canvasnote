@@ -32,7 +32,7 @@ class MainWindow(Adw.ApplicationWindow):
         self.notes_library = NotesLibrary()
         
         # Set up window
-        self.set_title("Notes2in1")
+        self.set_title("CanvasNote")
         self.set_default_size(1400, 900)
         
         # Show window controls (minimize, maximize, close buttons)
@@ -120,7 +120,7 @@ class MainWindow(Adw.ApplicationWindow):
         header = Adw.HeaderBar()
         header.set_show_end_title_buttons(True)  # Show minimize, maximize, close
         header.set_show_start_title_buttons(False)
-        header.set_title_widget(Gtk.Label(label="Notes2in1"))
+        header.set_title_widget(Gtk.Label(label="CanvasNote"))
         
         # Make header bar minimal/compact
         header.add_css_class("flat")

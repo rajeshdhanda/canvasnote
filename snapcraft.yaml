@@ -1,0 +1,51 @@
+name: canvasnote
+version: '1.0'
+summary: Note-taking & drawing app for 2-in-1 devices
+description: |
+  CanvasNote is a note-taking and drawing application for 2-in-1 devices with stylus support.
+  
+  Features:
+  - Drawing and handwriting with stylus support
+  - Multiple pen types (pen, pencil, highlighter, eraser)
+  - Palm rejection for natural writing
+  - PDF export functionality
+  - Organization with subjects and pages
+  
+title: CanvasNote
+license: MIT
+icon: snap/gui/icon.png
+contact: https://github.com/rajeshdhanda/canvasnote/issues
+issues: https://github.com/rajeshdhanda/canvasnote/issues
+source-code: https://github.com/rajeshdhanda/canvasnote
+website: https://github.com/rajeshdhanda/canvasnote
+confinement: strict
+grade: stable
+
+base: core24
+
+platforms:
+  amd64:
+
+apps: 
+  canvasnote:
+    command: bin/python3 $SNAP/main.py
+    extensions: [gnome]
+    common-id: io.github.canvasnote
+    plugs:
+      - home
+      - removable-media
+      - raw-input
+
+parts:
+  canvasnote:
+    plugin: python
+    source: .
+    stage-packages:
+      - python3-gi
+      - python3-gi-cairo
+      - python3-evdev
+    organize:
+      snap/gui: meta/gui
+    override-build: |
+      craftctl default
+      cp -r $CRAFT_PART_SRC/* $CRAFT_PART_INSTALL/

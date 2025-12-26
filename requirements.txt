@@ -1,4 +1,4 @@
-# Notes2in1 Dependencies
+# CanvasNote Dependencies
 # Install system packages first:
 #   sudo apt install libgtk-4-dev libadwaita-1-dev libcairo2-dev libgirepository1.0-dev
 

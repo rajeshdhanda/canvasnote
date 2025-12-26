@@ -1,12 +1,12 @@
-# Notes2in1
+# CanvasNote
 
 A comprehensive native Linux note-taking and drawing application optimized for 2-in-1/tablet devices with stylus support, featuring intelligent palm rejection, multiple input methods, and professional organization tools.
 
-**Status**: ✅ Production Ready | **Version**: 1.3
+**Status**: ✅ Production Ready | **Version**: 1.0
 
 ## 🎯 Quick Overview
 
-Notes2in1 is a full-featured note-taking app that combines:
+CanvasNote is a full-featured note-taking app that combines:
 
 - **Text Input**: Type notes with keyboard, formatting support
 - **Handwriting**: Natural writing with stylus/pen
@@ -18,12 +18,12 @@ Notes2in1 is a full-featured note-taking app that combines:
 
 ### Full Application Interface
 
-![Notes2in1 Full Application](images/full_app.png)
+![CanvasNote Full Application](images/full_app.png)
 _Main interface showing the canvas, sidebar with note library, and complete toolbar_
 
 ### Toolbar Overview
 
-![Notes2in1 Toolbar](images/toolbar.png)
+![CanvasNote Toolbar](images/toolbar.png)
 _Comprehensive toolbar with drawing tools, shapes, colors, and formatting options_
 
 ## ✨ Features
@@ -90,8 +90,8 @@ sudo usermod -a -G input $USER
 ### For End Users (Recommended)
 
 ```bash
-sudo snap install notes2in1
-notes2in1
+sudo snap install canvasnote
+canvasnote
 ```
 
 ### For Developers
@@ -125,12 +125,12 @@ sudo apt install python3 python3-pip libgtk-4-dev libadwaita-1-dev \
 # Setup (one-time)
 sudo snap install snapcraft --classic
 snapcraft login
-snapcraft register notes2in1
+snapcraft register canvasnote
 
 # Build and publish
 snapcraft
-snapcraft upload notes2in1_*.snap
-snapcraft release notes2in1 <revision> stable
+snapcraft upload canvasnote_*.snap
+snapcraft release canvasnote <revision> stable
 ```
 
 ## 📄 File Formats
@@ -140,17 +140,17 @@ snapcraft release notes2in1 <revision> stable
 
 ## 🔧 Troubleshooting
 
-| Issue                          | Solution                                                             |
-| ------------------------------ | -------------------------------------------------------------------- |
-| **Palm rejection not working** | `sudo usermod -a -G input $USER` (logout/login required)             |
-| **App won't start**            | Check logs: `tail -f logs/notes2in1_*.log` • Install GTK4/libadwaita |
-| **Drawing lag**                | Enable GPU acceleration • Lower canvas resolution                    |
-| **Device not detected**        | Grant access: `sudo usermod -a -G input $USER`                       |
+| Issue                          | Solution                                                              |
+| ------------------------------ | --------------------------------------------------------------------- |
+| **Palm rejection not working** | `sudo usermod -a -G input $USER` (logout/login required)              |
+| **App won't start**            | Check logs: `tail -f logs/canvasnote_*.log` • Install GTK4/libadwaita |
+| **Drawing lag**                | Enable GPU acceleration • Lower canvas resolution                     |
+| **Device not detected**        | Grant access: `sudo usermod -a -G input $USER`                        |
 
 ## 🏗️ Architecture
 
 ```
-notes2in1/
+canvasnote/
 ├── core/           # Canvas, strokes, input handling
 ├── ui/             # Main window, toolbar
 └── main.py         # Entry point
@@ -160,7 +160,7 @@ notes2in1/
 
 ## 📊 Status
 
-✅ **Production Ready** | Version 1.3  
+✅ **Production Ready** | Version 1.0  
 ✅ 53/53 features complete | 7/7 tests passed  
 ✅ Handles 10,000+ strokes | <5ms latency
 
@@ -172,7 +172,7 @@ notes2in1/
 
 ```bash
 ./run_dev.sh              # Run with logging
-tail -f logs/notes2in1_*. log  # View logs
+tail -f logs/canvasnote_*. log  # View logs
 ```
 
 ## 📄 License
@@ -185,4 +185,4 @@ Built with GTK4 • libadwaita • Cairo • python-evdev • PyGObject
 
 ---
 
-**Notes2in1** v1.3
+**CanvasNote** v1.0

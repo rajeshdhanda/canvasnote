@@ -20,7 +20,7 @@ class NotesLibrary:
             library_path: Path to the library directory. If None, uses default.
         """
         if library_path is None:
-            library_path = str(Path.home() / ".notes2in1" / "library")
+            library_path = str(Path.home() / ".canvasnote" / "library")
         
         self.library_path = Path(library_path)
         self.library_path.mkdir(parents=True, exist_ok=True)

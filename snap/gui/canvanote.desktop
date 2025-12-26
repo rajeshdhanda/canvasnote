@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=CanvasNote
+Comment=Note-taking and drawing app for 2-in-1 devices
+Exec=canvasnote
+Icon=${SNAP}/meta/gui/icon.png
+Terminal=false
+Type=Application
+Categories=Graphics;Education;Office;
+Keywords=notes;drawing;stylus;tablet;
