@@ -28,47 +28,82 @@ env:
   SNAP_ARCHITECTURES: amd64
 
 jobs:
-  semantic-release:
+  create-release:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.semantic.outputs.new_release_version }}
-      released: ${{ steps.semantic.outputs.new_release_published }}
+      version: ${{ steps.tag.outputs.version }}
+      tag: ${{ steps.tag.outputs.tag }}
     
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: true
 
-      - uses: actions/setup-node@v4
+      - name: Get latest tag and increment version
+        id: tag
+        run: |
+          # Get the latest tag, or default to 0.0.0 if no tags exist
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "Latest tag: $LATEST_TAG"
+          
+          # Remove 'v' prefix and split version
+          VERSION=${LATEST_TAG#v}
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          
+          # Increment patch version
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          NEW_TAG="v$NEW_VERSION"
+          
+          echo "New version: $NEW_VERSION"
+          echo "New tag: $NEW_TAG"
+          
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "tag=$NEW_TAG" >> $GITHUB_OUTPUT
+
+      - name: Create and push tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a ${{ steps.tag.outputs.tag }} -m "Release ${{ steps.tag.outputs.tag }}"
+          git push origin ${{ steps.tag.outputs.tag }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
         with:
-          node-version: 20
-
-      - run: npm install
-
-      - id: semantic
-        run: npx semantic-release --branches main
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: CanvasNote ${{ steps.tag.outputs.tag }}
+          body: |
+            ## CanvasNote ${{ steps.tag.outputs.tag }}
+            
+            Automated release for version ${{ steps.tag.outputs.version }}
+            
+            ### Installation
+            ```bash
+            sudo snap install canvasnote
+            ```
+          draft: false
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish-snap:
     runs-on: ubuntu-latest
-    needs: semantic-release
-    if: needs.semantic-release.outputs.released == 'true'
+    needs: create-release
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: v${{ needs.semantic-release.outputs.version }}
+          ref: ${{ needs.create-release.outputs.tag }}
 
-      - name: Set version from semantic-release
+      - name: Set version from release
         id: version
         run: |
-          VERSION="${{ needs.semantic-release.outputs.version }}"
+          VERSION="${{ needs.create-release.outputs.version }}"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "SNAP_VERSION=$VERSION" >> $GITHUB_ENV
-          echo "✓ Using version from semantic-release: $VERSION"
+          echo "✓ Using version: $VERSION"
 
       - name: Install Snapcraft
         run: |
@@ -202,7 +237,7 @@ jobs:
       - name: Update GitHub Release with snap file
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ needs.semantic-release.outputs.version }}
+          tag_name: ${{ needs.create-release.outputs.tag }}
           files: |
             ${{ env.SNAP_FILE }}
           append_body: true
