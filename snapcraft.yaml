@@ -30,7 +30,6 @@ apps:
   canvasnote:
     command: bin/python3 $SNAP/main.py
     extensions: [gnome]
-    common-id: io.github.canvasnote
     plugs:
       - home
       - removable-media
