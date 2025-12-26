@@ -157,7 +157,7 @@ jobs:
           sed -i "s/^version:.*/version: '$SNAP_VERSION'/" snapcraft.yaml
           echo "✓ Updated snapcraft.yaml with version: $SNAP_VERSION"
           
-          snapcraft pack
+          snapcraft pack --destructive-mode
           echo "✓ Snap built successfully"
 
       - name: Verify snap file
