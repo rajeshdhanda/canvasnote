@@ -29,11 +29,16 @@ platforms:
 apps: 
   canvasnote:
     command: bin/python3 $SNAP/main.py
-    extensions: [gnome]
     plugs:
+      - desktop
+      - desktop-legacy
+      - wayland
+      - x11
       - home
       - removable-media
-      - raw-input
+    environment:
+      PYTHONPATH: $SNAP/usr/lib/python3/dist-packages:$SNAP/lib/python3.12/site-packages
+      GI_TYPELIB_PATH: $SNAP/usr/lib/x86_64-linux-gnu/girepository-1.0:/usr/lib/x86_64-linux-gnu/girepository-1.0
 
 parts:
   canvasnote:
@@ -43,6 +48,10 @@ parts:
       - python3-gi
       - python3-gi-cairo
       - python3-evdev
+      - libgtk-4-1
+      - libadwaita-1-0
+      - gir1.2-gtk-4.0
+      - gir1.2-adw-1
     organize:
       snap/gui: meta/gui
     override-build: |
