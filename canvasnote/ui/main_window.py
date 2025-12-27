@@ -721,14 +721,14 @@ class MainWindow(Adw.ApplicationWindow):
         sep4.set_margin_end(6)
         toolbar.append(sep4)
         
-        # Palm rejection toggle (compact) - using SVG with visual indicator
+        # Palm rejection toggle (compact) - using PNG with visual indicator
         self.palm_reject_toggle = Gtk.ToggleButton()
         # Create an overlay box to show the icon with a colored indicator
         palm_overlay = Gtk.Overlay()
         palm_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         palm_box.set_halign(Gtk.Align.CENTER)
         palm_box.set_valign(Gtk.Align.CENTER)
-        palm_icon = self.create_image_button("palm-rejection.svg", 20)
+        palm_icon = self.create_image_button("palm-rejection.png", 20)
         palm_box.append(palm_icon)
         palm_overlay.set_child(palm_box)
         
