@@ -1097,15 +1097,16 @@ class DrawingCanvas(Gtk.DrawingArea):
         
         logger.info(f"🔵 CLICK PRESSED: device='{device_name}', source={source_name}, pos=({x:.1f}, {y:.1f})")
         
-        # Check palm rejection
+        # Check palm rejection (only for single-touch drawing)
         if self.palm_rejection_mode:
             # Check if device is a stylus by name (for UNKNOWN sources)
             device_name_lower = device_name.lower() if device_name else ""
             is_stylus_by_name = "stylus" in device_name_lower
             
-            # Block touchscreen, but allow stylus even with UNKNOWN source
+            # Block single-touch touchscreen, but allow stylus even with UNKNOWN source
+            # Multi-touch gestures are handled by separate zoom gesture controller
             if (source == Gdk.InputSource.TOUCHSCREEN or source_value == 3) and not is_stylus_by_name:
-                logger.warning(f"❌ BLOCKED TOUCHSCREEN in click handler")
+                logger.warning(f"❌ BLOCKED TOUCHSCREEN in click handler (single-touch)")
                 gesture.set_state(Gtk.EventSequenceState.DENIED)
                 return True
         
@@ -1137,24 +1138,35 @@ class DrawingCanvas(Gtk.DrawingArea):
         
         if ctrl:
             # Ctrl is held - zoom instead of scroll
-            # Get mouse position for zoom center
+            # Get widget allocation to use center point if position unavailable
+            width = self.get_width()
+            height = self.get_height()
+            x, y = width / 2, height / 2
+            
+            # Try to get mouse position for zoom center
             event = controller.get_current_event()
             if event:
-                x, y = event.get_position()
-                
-                if dy < 0:  # Scroll up = zoom in
-                    self.zoom_in(x, y)
-                else:  # Scroll down = zoom out
-                    self.zoom_out(x, y)
-                
-                return True  # Consume the event
+                pos = event.get_position()
+                if pos:
+                    x, y = pos
+            
+            if dy < 0:  # Scroll up = zoom in
+                self.zoom_in(x, y)
+            else:  # Scroll down = zoom out
+                self.zoom_out(x, y)
+            
+            return True  # Consume the event
         
         return False  # Let normal scrolling happen
     
     def on_zoom_begin(self, gesture, sequence):
         """Handle zoom gesture begin."""
+        # Multi-touch zoom should always work, even with palm rejection
+        # We only block single-touch drawing when palm rejection is on
         self.zoom_start = self.zoom
         logger.info(f"Zoom gesture begin at zoom level {self.zoom:.2f}")
+        # Claim this gesture to ensure it's not blocked by palm rejection
+        gesture.set_state(Gtk.EventSequenceState.CLAIMED)
         return True
     
     def on_zoom_changed(self, gesture, scale):

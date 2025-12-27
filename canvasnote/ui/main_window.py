@@ -82,9 +82,13 @@ class MainWindow(Adw.ApplicationWindow):
         return str(assets_dir / filename)
     
     def create_image_button(self, icon_filename, size=24):
-        """Create a button with a PNG image icon."""
+        """Create a button with a PNG or SVG image icon."""
         image = Gtk.Image.new_from_file(self.get_asset_path(icon_filename))
         image.set_pixel_size(size)
+        # For SVG, ensure proper sizing
+        if icon_filename.endswith('.svg'):
+            # SVG will scale properly with pixel size
+            pass
         return image
     
     def start_input_monitoring(self):
@@ -717,15 +721,36 @@ class MainWindow(Adw.ApplicationWindow):
         sep4.set_margin_end(6)
         toolbar.append(sep4)
         
-        # Palm rejection toggle (compact)
+        # Palm rejection toggle (compact) - using SVG with visual indicator
         self.palm_reject_toggle = Gtk.ToggleButton()
-        self.palm_reject_toggle.set_child(self.create_image_button("palm-rejection.png", 20))
+        # Create an overlay box to show the icon with a colored indicator
+        palm_overlay = Gtk.Overlay()
+        palm_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        palm_box.set_halign(Gtk.Align.CENTER)
+        palm_box.set_valign(Gtk.Align.CENTER)
+        palm_icon = self.create_image_button("palm-rejection.svg", 20)
+        palm_box.append(palm_icon)
+        palm_overlay.set_child(palm_box)
+        
+        # Add a colored indicator badge
+        self.palm_indicator = Gtk.Box()
+        self.palm_indicator.set_size_request(8, 8)
+        self.palm_indicator.set_halign(Gtk.Align.END)
+        self.palm_indicator.set_valign(Gtk.Align.START)
+        self.palm_indicator.set_margin_top(2)
+        self.palm_indicator.set_margin_end(2)
+        self.palm_indicator.add_css_class("palm-indicator")
+        self.palm_indicator.add_css_class("palm-indicator-active")
+        palm_overlay.add_overlay(self.palm_indicator)
+        
+        self.palm_reject_toggle.set_child(palm_overlay)
         self.palm_reject_toggle.set_size_request(36, 36)
-        self.palm_reject_toggle.set_tooltip_text("Palm Rejection (Pen Only)")
+        self.palm_reject_toggle.set_tooltip_text("Palm Rejection (Pen Only)\nToggle to enable/disable palm rejection")
         self.palm_reject_toggle.set_active(True)
         self.palm_reject_toggle.connect('toggled', self.on_palm_reject_toggled)
         self.palm_reject_toggle.add_css_class("circular")
         self.palm_reject_toggle.add_css_class("compact-tool")
+        self.palm_reject_toggle.add_css_class("palm-button")  # Special class for this button
         toolbar.append(self.palm_reject_toggle)
         
         # Separator for page navigation
@@ -2193,13 +2218,25 @@ class MainWindow(Adw.ApplicationWindow):
         is_active = toggle.get_active()
         self.canvas.set_palm_rejection_mode(is_active)
         
-        # Update status indicator
+        # Update visual indicator badge
         if is_active:
+            self.palm_indicator.add_css_class("palm-indicator-active")
+            self.palm_indicator.remove_css_class("palm-indicator-inactive")
+            toggle.add_css_class("palm-button-active")
+            toggle.remove_css_class("palm-button-inactive")
             self.palm_status_label.set_text("🖐️ Palm Rejection: ON")
+            logger.info("Palm rejection enabled - RED indicator")
         else:
+            self.palm_indicator.add_css_class("palm-indicator-inactive")
+            self.palm_indicator.remove_css_class("palm-indicator-active")
+            toggle.add_css_class("palm-button-inactive")
+            toggle.remove_css_class("palm-button-active")
             self.palm_status_label.set_text("🖐️ Palm Rejection: OFF")
+            logger.info("Palm rejection disabled - GREEN indicator")
         
-        logger.info(f"Palm rejection: {'enabled' if is_active else 'disabled'}")
+        # Debug: log current CSS classes
+        classes = toggle.get_css_classes()
+        logger.debug(f"Palm rejection button CSS classes: {classes}")
     
     def on_clear_clicked(self):
         """Handle clear button click."""
@@ -2414,9 +2451,20 @@ Stylus Devices ({len(info['stylus_devices'])}):
     
     def do_close_request(self):
         """Handle window close request."""
+        # Save current work before closing
+        if self.current_file and self.current_subject and self.current_note:
+            self.save_current_note()
+        
+        # Stop input monitoring
         self.input_handler.stop_monitoring()
+        
+        # Remove autosave timeout
         if self.autosave_timeout:
             GLib.source_remove(self.autosave_timeout)
+        
+        # Quit the application to ensure clean shutdown
+        self.app.quit()
+        
         return False  # Allow close
     
     def on_prev_page(self):

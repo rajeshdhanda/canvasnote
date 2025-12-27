@@ -381,6 +381,57 @@ togglebutton.compact-tool:checked:hover {
     transform: scale(1.05);
 }
 
+/* Palm rejection button with indicator badge */
+togglebutton.palm-button {
+    position: relative;
+}
+
+/* Colored indicator badge - small circle in corner */
+.palm-indicator {
+    border-radius: 50%;
+    min-width: 8px;
+    min-height: 8px;
+    box-shadow: 0 0 4px alpha(black, 0.3);
+}
+
+/* Active state - RED indicator */
+.palm-indicator-active {
+    background: #FF5252;
+    box-shadow: 0 0 8px #FF5252, 0 0 4px alpha(black, 0.3);
+}
+
+/* Inactive state - GREEN indicator */
+.palm-indicator-inactive {
+    background: #00E676;
+    box-shadow: 0 0 8px #00E676, 0 0 4px alpha(black, 0.3);
+}
+
+/* Button background when active */
+togglebutton.palm-button-active {
+    background: alpha(#FF5252, 0.15);
+    box-shadow: 0 0 8px alpha(#FF5252, 0.3), inset 0 1px 3px alpha(black, 0.05);
+}
+
+togglebutton.palm-button-active:hover {
+    background: alpha(#FF5252, 0.22);
+    box-shadow: 0 0 12px alpha(#FF5252, 0.4);
+    transform: scale(1.05);
+}
+
+/* Button background when inactive */
+togglebutton.palm-button-inactive {
+    background: alpha(#00E676, 0.12);
+    opacity: 0.8;
+    box-shadow: 0 0 6px alpha(#00E676, 0.25), inset 0 1px 3px alpha(black, 0.05);
+}
+
+togglebutton.palm-button-inactive:hover {
+    background: alpha(#00E676, 0.18);
+    opacity: 0.9;
+    box-shadow: 0 0 10px alpha(#00E676, 0.35);
+    transform: scale(1.05);
+}
+
 /* Dropdown styling */
 dropdown {
     border-radius: 10px;

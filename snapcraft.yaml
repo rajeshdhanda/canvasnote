@@ -39,6 +39,9 @@ apps:
     environment:
       PYTHONPATH: $SNAP/usr/lib/python3/dist-packages:$SNAP/lib/python3.12/site-packages
       GI_TYPELIB_PATH: $SNAP/usr/lib/x86_64-linux-gnu/girepository-1.0:/usr/lib/x86_64-linux-gnu/girepository-1.0
+      # Force GTK scaling to 1x to prevent double-scaling of icons
+      GDK_SCALE: "1"
+      GDK_DPI_SCALE: "1"
 
 parts:
   canvasnote:
